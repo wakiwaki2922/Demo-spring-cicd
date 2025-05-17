@@ -1,6 +1,7 @@
 package com.zd.demodeploycicd.service;
 
 import com.zd.demodeploycicd.dto.UserDTO;
+import com.zd.demodeploycicd.dto.UserResponseDTO;
 import com.zd.demodeploycicd.entity.User;
 import com.zd.demodeploycicd.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -19,28 +20,26 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserDTO> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(this::toDTO)
+                .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserDTO> getUserById(Long id) {
-        return userRepository.findById(id).map(this::toDTO);
+    public Optional<UserResponseDTO> getUserById(Long id) {
+        return userRepository.findById(id).map(this::toResponseDTO);
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
+    public UserResponseDTO createUser(UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
         User user = toEntity(userDTO);
         User savedUser = userRepository.save(user);
-        UserDTO savedDTO = toDTO(savedUser);
-        savedDTO.setId(savedUser.getId());
-        return savedDTO;
+        return toResponseDTO(savedUser);
     }
 
-    public Optional<UserDTO> updateUser(Long id, UserDTO userDTO) {
+    public Optional<UserResponseDTO> updateUser(Long id, UserDTO userDTO) {
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isEmpty()) {
             return Optional.empty();
@@ -52,9 +51,7 @@ public class UserService {
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         User updatedUser = userRepository.save(user);
-        UserDTO updatedDTO = toDTO(updatedUser);
-        updatedDTO.setId(updatedUser.getId());
-        return Optional.of(updatedDTO);
+        return Optional.of(toResponseDTO(updatedUser));
     }
 
     public boolean deleteUser(Long id) {
@@ -65,8 +62,8 @@ public class UserService {
         return false;
     }
 
-    private UserDTO toDTO(User user) {
-        UserDTO dto = new UserDTO();
+    private UserResponseDTO toResponseDTO(User user) {
+        UserResponseDTO dto = new UserResponseDTO();
         dto.setId(user.getId());
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());

@@ -1,6 +1,7 @@
 package com.zd.demodeploycicd.service;
 
 import com.zd.demodeploycicd.dto.UserDTO;
+import com.zd.demodeploycicd.dto.UserResponseDTO;
 import com.zd.demodeploycicd.entity.User;
 import com.zd.demodeploycicd.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,6 @@ class UserServiceTest {
         testUser.setEmail("test@example.com");
 
         testUserDTO = new UserDTO();
-        testUserDTO.setId(1L);
         testUserDTO.setName("Test User");
         testUserDTO.setEmail("test@example.com");
     }
@@ -48,7 +48,7 @@ class UserServiceTest {
     void getAllUsers_ShouldReturnListOfUsers() {
         when(userRepository.findAll()).thenReturn(Arrays.asList(testUser));
 
-        List<UserDTO> result = userService.getAllUsers();
+        List<UserResponseDTO> result = userService.getAllUsers();
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getId()).isEqualTo(testUser.getId());
@@ -61,7 +61,7 @@ class UserServiceTest {
     void getUserById_WithExistingId_ShouldReturnUser() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
-        Optional<UserDTO> result = userService.getUserById(1L);
+        Optional<UserResponseDTO> result = userService.getUserById(1L);
 
         assertThat(result).isPresent();
         assertThat(result.get().getId()).isEqualTo(testUser.getId());
@@ -74,7 +74,7 @@ class UserServiceTest {
     void getUserById_WithNonExistingId_ShouldReturnEmpty() {
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        Optional<UserDTO> result = userService.getUserById(99L);
+        Optional<UserResponseDTO> result = userService.getUserById(99L);
 
         assertThat(result).isEmpty();
         verify(userRepository).findById(99L);
@@ -85,10 +85,11 @@ class UserServiceTest {
         when(userRepository.existsByEmail(testUserDTO.getEmail())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(testUser);
 
-        UserDTO result = userService.createUser(testUserDTO);
+        UserResponseDTO result = userService.createUser(testUserDTO);
 
-        assertThat(result.getName()).isEqualTo(testUserDTO.getName());
-        assertThat(result.getEmail()).isEqualTo(testUserDTO.getEmail());
+        assertThat(result.getId()).isEqualTo(testUser.getId());
+        assertThat(result.getName()).isEqualTo(testUser.getName());
+        assertThat(result.getEmail()).isEqualTo(testUser.getEmail());
         verify(userRepository).existsByEmail(testUserDTO.getEmail());
         verify(userRepository).save(any(User.class));
     }
@@ -109,14 +110,14 @@ class UserServiceTest {
     void updateUser_WithExistingId_ShouldUpdateUser() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         UserDTO updatedDTO = new UserDTO();
-        updatedDTO.setId(1L);
+
         updatedDTO.setName("Updated Name");
         updatedDTO.setEmail("updated@example.com");
         
         when(userRepository.existsByEmail("updated@example.com")).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(testUser);
 
-        Optional<UserDTO> result = userService.updateUser(1L, updatedDTO);
+        Optional<UserResponseDTO> result = userService.updateUser(1L, updatedDTO);
 
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("Updated Name");
@@ -130,7 +131,7 @@ class UserServiceTest {
     void updateUser_WithNonExistingId_ShouldReturnEmpty() {
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        Optional<UserDTO> result = userService.updateUser(99L, testUserDTO);
+        Optional<UserResponseDTO> result = userService.updateUser(99L, testUserDTO);
 
         assertThat(result).isEmpty();
         verify(userRepository).findById(99L);
