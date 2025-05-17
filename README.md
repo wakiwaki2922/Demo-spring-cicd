@@ -1,8 +1,8 @@
 # Demo CI/CD Spring Boot Application
 
-[![CI Pipeline](https://github.com/yourusername/demodeploycicd/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/yourusername/demodeploycicd/actions/workflows/ci-cd.yml)
-[![Docker Image](https://img.shields.io/docker/pulls/yourusername/demodeploycicd)](https://hub.docker.com/r/yourusername/demodeploycicd)
-[![Docker Image Version](https://img.shields.io/docker/v/yourusername/demodeploycicd/latest)](https://hub.docker.com/r/yourusername/demodeploycicd/tags)
+[![CI Pipeline](https://github.com/wakiwaki2922/Demo-spring-cicd/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/wakiwaki2922/Demo-spring-cicd/actions/workflows/ci-cd.yml)
+[![Docker Image](https://img.shields.io/docker/pulls/wakiwaki2922/demodeploycicd)](https://hub.docker.com/r/wakiwaki2922/demodeploycicd)
+[![Docker Image Version](https://img.shields.io/docker/v/wakiwaki2922/demodeploycicd/latest)](https://hub.docker.com/r/wakiwaki2922/demodeploycicd/tags)
 
 A demonstration project showcasing CI/CD implementation with Spring Boot, featuring a RESTful API for user management with automated testing and Docker deployment.
 
@@ -39,8 +39,8 @@ A demonstration project showcasing CI/CD implementation with Spring Boot, featur
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/demodeploycicd.git
-   cd demodeploycicd
+   git clone https://github.com/wakiwaki2922/Demo-spring-cicd.git
+   cd Demo-spring-cicd
    ```
 
 2. Build the project:
@@ -59,12 +59,12 @@ The application will be available at `http://localhost:8080`
 
 1. Build the Docker image:
    ```bash
-   docker build -t demodeploycicd .
+   docker build -t Demo-spring-cicd .
    ```
 
 2. Run the container:
    ```bash
-   docker run -p 8080:8080 demodeploycicd
+   docker run -p 8080:8080 Demo-spring-cicd
    ```
 
 ## API Documentation
