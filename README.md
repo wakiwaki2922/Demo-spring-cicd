@@ -1,5 +1,9 @@
 # Demo CI/CD Spring Boot Application
 
+[![CI Pipeline](https://github.com/yourusername/demodeploycicd/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/yourusername/demodeploycicd/actions/workflows/ci-cd.yml)
+[![Docker Image](https://img.shields.io/docker/pulls/yourusername/demodeploycicd)](https://hub.docker.com/r/yourusername/demodeploycicd)
+[![Docker Image Version](https://img.shields.io/docker/v/yourusername/demodeploycicd/latest)](https://hub.docker.com/r/yourusername/demodeploycicd/tags)
+
 A demonstration project showcasing CI/CD implementation with Spring Boot, featuring a RESTful API for user management with automated testing and Docker deployment.
 
 ## Technologies
