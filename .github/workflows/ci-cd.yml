@@ -1,4 +1,4 @@
-﻿name: CI Pipeline
+﻿name: CI/CD Pipeline
 
 on:
   push:
@@ -44,3 +44,15 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/demodeploycicd:latest
             ${{ secrets.DOCKER_USERNAME }}/demodeploycicd:${{ github.run_number }}
+
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Portainer
+        uses: carlospie/portainer-deploy@v2
+        with:
+          portainer-host: ${{ secrets.PORTAINER_HOST }}
+          portainer-api-token: ${{ secrets.PORTAINER_API_TOKEN }}
+          stack-name: demodeploy
+          stack-definition: docker-compose.yml
