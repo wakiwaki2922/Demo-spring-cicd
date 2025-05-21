@@ -1,0 +1,10 @@
+# Common configurations for all profiles
+server:
+  port: 8080
+
+# Swagger UI Configuration
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
